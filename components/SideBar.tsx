@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Home, MessageSquare, Brain } from 'lucide-react'
+import { Home, MessageSquare} from 'lucide-react'
 
 interface SidebarProps {
   activeSection: 'chatbot' | 'brain-model'
