@@ -1,12 +1,28 @@
 import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Abril_Fatface, Edu_VIC_WA_NT_Beginner, Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const abril = Abril_Fatface({ 
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-abril',
+  display: 'swap',
+})
 
-export const metadata: Metadata = {
+const eduAustralia = Edu_VIC_WA_NT_Beginner({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-edu-australia',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+export const metadata = {
   title: 'Beyond Broken Brains',
-  description: 'Empowering individuals with brain injuries and disabilities',
+  description: 'Empowering minds, one brain at a time',
 }
 
 export default function RootLayout({
@@ -15,14 +31,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/lucide-react@0.258.0/dist/umd/lucide-react.min.css"
-        />
-      </head>
-      <body className={`${inter.className} bg-navy text-white`}>{children}</body>
+    <html lang="en" className={`${abril.variable} ${eduAustralia.variable} ${inter.variable}`}>
+      <body className="font-inter">{children}</body>
     </html>
   )
 }

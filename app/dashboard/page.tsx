@@ -1,58 +1,51 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
-import { Send } from 'lucide-react'
-import Link from 'next/link'
+import { useState } from 'react'
+import { Sidebar } from '../../components/SideBar'
+import { ChatInterface } from '../../components/ChatInterface'
+import { BrainModel } from '../../components/BrainModel'
+import { motion } from 'framer-motion'
 
 export default function Dashboard() {
-  const [messages, setMessages] = useState([
-    { role: 'system', content: 'Welcome to Beyond Broken Brains. How can I assist you today?' }
-  ])
-  const [input, setInput] = useState('')
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (input.trim()) {
-      setMessages([...messages, { role: 'user', content: input }])
-      setTimeout(() => {
-        setMessages(msgs => [...msgs, { role: 'system', content: `You said: ${input}` }])
-      }, 1000)
-      setInput('')
-    }
-  }
+  const [activeSection, setActiveSection] = useState<'chatbot' | 'brain-model'>('chatbot')
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-b from-navy to-navy-dark">
-      <header className="bg-pink text-navy py-4">
-        <div className="container mx-auto px-4">
-          <Link href="/" className="text-2xl font-bold">
-            Beyond Broken Brains
-          </Link>
-        </div>
-      </header>
-      <main className="flex-grow container mx-auto px-4 py-8 overflow-auto">
-        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6 text-pink">Chatbot Dashboard</h1>
-          <div className="space-y-4 mb-4">
-            {messages.map((message, index) => (
-              <div key={index} className={`p-3 rounded-lg ${message.role === 'user' ? 'bg-pink text-navy ml-auto' : 'bg-navy text-white'} max-w-[80%]`}>
-                {message.content}
+    <div className="flex h-screen bg-gradient-to-br from-bbb-yellow to-white">
+      <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <main className="flex-1 p-8 overflow-y-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-5xl mx-auto"
+        >
+
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+            {activeSection === 'chatbot' ? (
+              <div className="p-8">
+                <h2 className="text-3xl font-abril text-bbb-purple mb-4">
+                  Interactive Chatbot
+                </h2>
+                <p className="text-bbb-black/80 mb-6 leading-relaxed max-w-3xl">
+                  Welcome to our AI-powered chatbot! Start a conversation to clarify doubts you may have regarding the functional uunit of the human body, know more about the brain injuries and disabilities.
+                </p>
+                <ChatInterface />
               </div>
-            ))}
+            ) : (
+              <div className="p-8">
+                <h2 className="text-3xl font-abril text-bbb-purple mb-4">
+                  3D Brain Model
+                </h2>
+                <p className="text-bbb-black/80 mb-6 leading-relaxed max-w-3xl">
+                  Explore the human brain in stunning 3D detail. Click and drag to rotate the model and learn about different brain regions and their functions.
+                </p>
+                <div className="w-full h-[600px] bg-white rounded-xl shadow-inner">
+                  <BrainModel isAnimating={true} />
+                </div>
+              </div>
+            )}
           </div>
-          <form onSubmit={handleSubmit} className="flex">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message here..."
-              className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-pink bg-white bg-opacity-20 text-white placeholder-gray-300"
-            />
-            <button type="submit" className="bg-pink text-navy p-2 rounded-r-lg hover:bg-opacity-90">
-              <Send />
-            </button>
-          </form>
-        </div>
+        </motion.div>
       </main>
     </div>
   )
