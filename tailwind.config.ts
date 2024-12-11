@@ -9,11 +9,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: '#0A2342',
-        'navy-dark': '#05101E',
-        pink: '#FF69B4',
+        'bbb-yellow': '#FFFACD',
+        'bbb-purple': '#8A2BE2',
+        'bbb-black': '#1A1A1A',
+      },
+      fontFamily: {
+        abril: ['var(--font-abril)', 'serif'],
+        'edu-australia': ['var(--font-edu-australia)', 'cursive'],
+        inter: ['var(--font-inter)', 'sans-serif'],
       },
     },
   },
   plugins: [],
-} satisfies Config;
+} satisfies Config; 
