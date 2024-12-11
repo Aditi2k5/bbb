@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Home, MessageSquare, Brain } from 'lucide-react'
 
 interface SidebarProps {
@@ -42,8 +41,6 @@ export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
               : 'text-bbb-black/80 hover:text-bbb-purple hover:bg-bbb-yellow/30'
           } group`}
         >
-          <Brain className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />
-          <span>Brain Model</span>
         </button>
       </nav>
     </div>

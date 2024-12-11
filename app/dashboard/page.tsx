@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Sidebar } from '../../components/SideBar'
 import { ChatInterface } from '../../components/ChatInterface'
-import { BrainModel } from '../../components/BrainModel'
 import { motion } from 'framer-motion'
 
 export default function Dashboard() {
@@ -39,9 +38,6 @@ export default function Dashboard() {
                 <p className="text-bbb-black/80 mb-6 leading-relaxed max-w-3xl">
                   Explore the human brain in stunning 3D detail. Click and drag to rotate the model and learn about different brain regions and their functions.
                 </p>
-                <div className="w-full h-[600px] bg-white rounded-xl shadow-inner">
-                  <BrainModel isAnimating={true} />
-                </div>
               </div>
             )}
           </div>
