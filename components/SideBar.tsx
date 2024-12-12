@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Home, MessageSquare, Brain, Users, Menu, X } from 'lucide-react'
+import { Home, MessageSquare,  Users, Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 interface SidebarProps {
