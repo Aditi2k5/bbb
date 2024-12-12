@@ -67,19 +67,19 @@ export function Forum() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         onSubmit={handlePostSubmit}
-        className="bg-white rounded-2xl shadow-md p-6"
+        className="bg-white rounded-2xl shadow-md p-4 md:p-6"
       >
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
           placeholder="Share your experience or ask for support..."
-          className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-bbb-purple/20 resize-none"
+          className="w-full p-2 md:p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-bbb-purple/20 resize-none text-sm md:text-base"
           rows={3}
         />
         <input
@@ -87,11 +87,11 @@ export function Forum() {
           value={newPostTags}
           onChange={(e) => setNewPostTags(e.target.value)}
           placeholder="Add tags (comma-separated)"
-          className="w-full mt-3 p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-bbb-purple/20"
+          className="w-full mt-2 md:mt-3 p-2 md:p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-bbb-purple/20 text-sm md:text-base"
         />
         <button
           type="submit"
-          className="mt-3 px-6 py-2 bg-bbb-purple text-white rounded-xl hover:bg-bbb-purple/90 transition-colors duration-200"
+          className="mt-2 md:mt-3 px-4 md:px-6 py-2 bg-bbb-purple text-white rounded-xl hover:bg-bbb-purple/90 transition-colors duration-200 text-sm md:text-base"
         >
           Post
         </button>
@@ -104,33 +104,33 @@ export function Forum() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
-            className="bg-white rounded-2xl shadow-md p-6"
+            className="bg-white rounded-2xl shadow-md p-4 md:p-6"
           >
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full bg-bbb-purple/10 flex items-center justify-center mr-4">
-                <User className="w-6 h-6 text-bbb-purple" />
+            <div className="flex items-center mb-3 md:mb-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-bbb-purple/10 flex items-center justify-center mr-3 md:mr-4">
+                <User className="w-5 h-5 md:w-6 md:h-6 text-bbb-purple" />
               </div>
-              <span className="font-semibold text-lg">{post.author}</span>
+              <span className="font-semibold text-base md:text-lg">{post.author}</span>
             </div>
-            <p className="mb-4 text-bbb-black/90 leading-relaxed">{post.content}</p>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <p className="mb-3 md:mb-4 text-sm md:text-base text-bbb-black/90 leading-relaxed">{post.content}</p>
+            <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
               {post.tags.map((tag, index) => (
-                <span key={index} className="bg-bbb-yellow/30 text-bbb-purple px-3 py-1 rounded-full text-sm font-medium">
+                <span key={index} className="bg-bbb-yellow/30 text-bbb-purple px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium">
                   #{tag}
                 </span>
               ))}
             </div>
-            <div className="flex justify-between text-sm text-gray-500">
+            <div className="flex justify-between text-xs md:text-sm text-gray-500">
               <button className="flex items-center hover:text-bbb-purple transition-colors duration-200">
-                <Heart className="w-5 h-5 mr-1" />
+                <Heart className="w-4 h-4 md:w-5 md:h-5 mr-1" />
                 {post.likes}
               </button>
               <button className="flex items-center hover:text-bbb-purple transition-colors duration-200">
-                <MessageCircle className="w-5 h-5 mr-1" />
+                <MessageCircle className="w-4 h-4 md:w-5 md:h-5 mr-1" />
                 {post.comments}
               </button>
               <button className="flex items-center hover:text-bbb-purple transition-colors duration-200">
-                <Share2 className="w-5 h-5 mr-1" />
+                <Share2 className="w-4 h-4 md:w-5 md:h-5 mr-1" />
                 {post.shares}
               </button>
             </div>
@@ -140,4 +140,3 @@ export function Forum() {
     </div>
   )
 }
-
