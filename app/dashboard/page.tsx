@@ -46,7 +46,7 @@ export default function Dashboard() {
                     Support Forum
                   </h2>
                   <p className="text-bbb-black/80 mb-6 leading-relaxed max-w-3xl">
-                    Welcome to our support forum. This is a safe space to share your experiences, ask questions, and connect with others who understand what you're going through. Whether you're dealing with a brain injury, disability, or supporting someone who is, you'll find a community of understanding and support here.
+                    Welcome to our support forum. This is a safe space to share your experiences, ask questions, and connect with others who understand what you are going through. Whether you are dealing with a brain injury, disability, or supporting someone who is, you will find a community of understanding and support here.
                   </p>
                   <Forum />
                 </motion.div>
