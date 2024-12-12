@@ -6,12 +6,12 @@ import { Home, MessageSquare, Users } from 'lucide-react'
 
 interface SidebarProps {
   activeSection: 'chatbot' | 'brain-model' | 'forum'
-  setActiveSection: (section: 'chatbot' | 'brain-model' | 'forum') => void
-  isSidebarOpen: boolean
-  setIsSidebarOpen: (isOpen: boolean) => void
+  setActiveSection: (section: 'chatbot' |'forum') => void
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
 }
 
-export function Sidebar({ activeSection, setActiveSection, isSidebarOpen, setIsSidebarOpen }: SidebarProps) {
+export function Sidebar({ activeSection, setActiveSection, isOpen, setIsOpen }: SidebarProps) {
   return (
     <motion.div
       initial={{ x: -100, opacity: 0 }}

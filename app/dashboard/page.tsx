@@ -16,8 +16,8 @@ export default function Dashboard() {
       <Sidebar 
         activeSection={activeSection} 
         setActiveSection={setActiveSection}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
         <div className="md:hidden mb-4">
