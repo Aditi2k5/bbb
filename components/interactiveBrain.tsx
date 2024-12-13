@@ -4,9 +4,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Text } from '@react-three/drei'
 import * as THREE from 'three'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
-// Add interface for brain part
 interface BrainPart {
   name: string;
   color: number;
@@ -102,64 +101,57 @@ const brainParts: BrainPart[] = [
   }
 ];
 
-function BrainModel() {
-  const { scene } = useGLTF('model/brain.glb')
+interface CameraControllerProps {
+  target: BrainPart | null;
+}
 
+function CameraController({ target }: CameraControllerProps) {
+  const { camera } = useThree()
+  
+  useEffect(() => {
+    if (target) {
+      const startPosition = camera.position.clone()
+      const endPosition = new THREE.Vector3(
+        target.position[0] * 3, 
+        target.position[1] * 3, 
+        target.position[2] * 3
+      )
+      
+      const duration = 1000
+      const startTime = performance.now()
+      
+      function animate(currentTime: number) {
+        const elapsed = currentTime - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        
+        const t = 1 - Math.pow(1 - progress, 3)
+        camera.position.lerpVectors(startPosition, endPosition, t)
+        camera.lookAt(0, 0, 0)
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
+      }
+      
+      requestAnimationFrame(animate)
+    }
+  }, [target, camera])
+  
+  return null
+}
+
+function BrainModel() {
+  const { scene } = useGLTF('/model/brain.glb')
   return <primitive object={scene} position={[1, -1, 0]} scale={[1, 1, 1]} />
 }
 
-// Add props interface for BrainPart component
-interface BrainPartProps {
-  part: BrainPart;
+interface SceneProps {
   setHovered: (part: BrainPart | null) => void;
   setSelected: (part: BrainPart) => void;
+  cameraTarget: BrainPart | null;
 }
 
-const BrainPart: React.FC<BrainPartProps> = ({ part, setHovered, setSelected }) => {
-  const textRef = useRef<THREE.Mesh>(null);
-  const { camera } = useThree()
-  const [hovered, setHoveredLocal] = useState(false)
-  const [clicked, setClicked] = useState(false)
-
-  const handleClick = () => {
-    setSelected(part)
-    setClicked(!clicked)
-  }
-
-  useFrame(() => {
-    if (textRef.current) {
-      textRef.current.lookAt(camera.position)
-    }
-  })
-
-  return (
-    <group
-      position={part.position}
-      onClick={handleClick}
-      onPointerOver={() => {
-        setHoveredLocal(true)
-        setHovered(part)
-      }}
-      onPointerOut={() => {
-        setHoveredLocal(false)
-        setHovered(null)
-      }}
-    >
-      <Text
-        ref={textRef}
-        fontSize={0.2}
-        color={hovered || clicked ? '#0000ff' : '#000000'}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {part.name}
-      </Text>
-    </group>
-  )
-}
-
-
-function Scene({ setHovered, setSelected }) {
+function Scene({ setHovered, setSelected, cameraTarget }: SceneProps) {
   const { camera } = useThree()
 
   useEffect(() => {
@@ -168,9 +160,12 @@ function Scene({ setHovered, setSelected }) {
 
   return (
     <>
+      <CameraController target={cameraTarget} />
       <BrainModel />
       {brainParts.map((part, index) => (
-        <BrainPart key={index} part={part} setHovered={setHovered} setSelected={setSelected} />
+        <group key={index} position={part.position}>
+          {/* Your group content here */}
+        </group>
       ))}
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
@@ -182,54 +177,58 @@ function Scene({ setHovered, setSelected }) {
   )
 }
 
-// Add props interface for InfoModal component
-interface InfoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  part: BrainPart | null;
-}
-
-const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose, part }) => {
-  if (!part) return null
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{part.name}</DialogTitle>
-          <DialogDescription>{part.info}</DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-const InteractiveBrainModel: React.FC = () => {
-  const [hovered, setHovered] = useState<BrainPart | null>(null);
-  const [selected, setSelected] = useState<BrainPart | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+export default function InteractiveBrainModel() {
+  const [hovered, setHovered] = useState<BrainPart | null>(null)
+  const [selected, setSelected] = useState<BrainPart | null>(null)
+  const [expandedPart, setExpandedPart] = useState<BrainPart | null>(null)
+  const [cameraTarget, setCameraTarget] = useState<BrainPart | null>(null)
 
   const handlePartClick = (part: BrainPart) => {
-    setSelected(part);
-    setIsModalOpen(true);
-  };
+    setSelected(part)
+    setCameraTarget(part)
+    setExpandedPart(expandedPart === part ? null : part)
+  }
 
   return (
-    <div className="w-full h-[600px] relative">
-      <Canvas shadows>
-        <Scene setHovered={setHovered} setSelected={handlePartClick} />
-      </Canvas>
-      <div className="absolute bottom-4 left-0 right-0 bg-black bg-opacity-75 text-pink-700 p-4 text-center">
-        {hovered ? (
-          <p>{hovered.name}</p>
-        ) : (
-          <p>Hover over or click brain regions to learn more</p>
-        )}
+    <div className="flex w-full h-[600px] relative">
+      <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">Brain Parts</h2>
+        {brainParts.map((part, index) => (
+          <div key={index} className="mb-2">
+            <button
+              className={`w-full text-left p-2 rounded flex justify-between items-center ${
+                selected === part ? 'bg-blue-200' : 'hover:bg-blue-100'
+              }`}
+              onClick={() => handlePartClick(part)}
+            >
+              <span>{part.name}</span>
+              {expandedPart === part ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
+            {expandedPart === part && (
+              <div className="p-2 bg-white rounded-b-lg shadow-sm">
+                <p className="text-gray-700 text-sm">{part.info}</p>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
-      <InfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} part={selected} />
+
+      <div className="w-3/4 relative">
+        <Canvas shadows>
+          <Scene 
+            setHovered={setHovered} 
+            setSelected={handlePartClick} 
+            cameraTarget={cameraTarget} 
+          />
+        </Canvas>
+        {/* <div className="absolute bottom-4 left-0 right-0 bg-black bg-opacity-75 text-pink-700 p-4 text-center">
+          {hovered ? (
+            <p>{hovered.name}</p>
+          ) : (
+            <p>Hover over or click brain regions to learn more</p>
+          )}
+        </div> */}
+      </div>
     </div>
   )
 }
-
-export default InteractiveBrainModel;
-
