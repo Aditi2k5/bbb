@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Sidebar } from '../../components/SideBar'
-import { ChatInterface } from '../../components/ChatInterface'
-import { Forum } from '../../components/Forum'
+import { Sidebar } from '../sidebar/SideBar'
+import { ChatInterface } from '../chatbot/ChatInterface'
+import { Forum } from '../forum/Forum'
 import { motion } from 'framer-motion'
-import InteractiveBrainModel from '@/components/interactiveBrain'
+import InteractiveBrainModel from '@/app/brainmodel/interactiveBrain'
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState<'chatbot' | 'brain-model' | 'forum'>('chatbot')
