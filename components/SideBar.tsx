@@ -48,7 +48,7 @@ export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
               <Home className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />
               <span>Home</span>
             </Link>
-            {['chatbot', 'forum'].map((section) => (
+            {['chatbot', 'forum','brain-model'].map((section) => (
               <button
                 key={section}
                 onClick={() => {

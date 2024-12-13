@@ -5,6 +5,7 @@ import { Sidebar } from '../../components/SideBar'
 import { ChatInterface } from '../../components/ChatInterface'
 import { Forum } from '../../components/Forum'
 import { motion } from 'framer-motion'
+import InteractiveBrainModel from '@/components/interactiveBrain'
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState<'chatbot' | 'brain-model' | 'forum'>('chatbot')
@@ -49,7 +50,7 @@ export default function Dashboard() {
                   <p className="text-bbb-black/80 mb-6 leading-relaxed max-w-3xl">
                     Explore the human brain in stunning 3D detail. Click and drag to rotate the model and learn about different brain regions and their functions.
                   </p>
-    
+                <InteractiveBrainModel />
                 </motion.div>
               )}
               {activeSection === 'forum' && (
