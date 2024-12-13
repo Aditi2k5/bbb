@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { Sidebar } from '../sidebar/SideBar'
 import { ChatInterface } from '../chatbot/ChatInterface'
+import InteractiveBrainModel from '../brain/interactiveBrain'
 import { Forum } from '../forum/Forum'
 import { motion } from 'framer-motion'
-import InteractiveBrainModel from '@/app/brain/interactiveBrain'
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState<'chatbot' | 'brain-model' | 'forum'>('chatbot')
