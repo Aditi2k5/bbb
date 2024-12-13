@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { Home, MessageSquare,  Users, Menu, X } from 'lucide-react'
+import { Home, MessageSquare,  Users, Menu, X, Brain } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 interface SidebarProps {
   activeSection: 'chatbot' | 'brain-model' | 'forum'
-  setActiveSection: (section: 'chatbot' |  'forum') => void
+  setActiveSection: (section: 'chatbot' | 'brain-model' | 'forum') => void
 }
 
 export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
@@ -48,11 +48,11 @@ export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
               <Home className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />
               <span>Home</span>
             </Link>
-            {['chatbot', 'forum'].map((section) => (
+            {['chatbot', 'forum','brain-model'].map((section) => (
               <button
                 key={section}
                 onClick={() => {
-                  setActiveSection(section as 'chatbot' | 'forum')
+                  setActiveSection(section as 'chatbot' | 'brain-model' | 'forum')
                   setIsMobileMenuOpen(false)
                 }}
                 className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 w-full ${
@@ -63,6 +63,7 @@ export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
               >
                 {section === 'chatbot' && <MessageSquare className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />}
                 {section === 'forum' && <Users className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />}
+                {section === 'brain-model' && <Brain className="w-5 h-5 mr-3 transition-transform duration-200 group-hover:scale-110" />}
                 <span className="capitalize">{section.replace('-', ' ')}</span>
               </button>
             ))}
@@ -72,4 +73,3 @@ export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
     </>
   )
 }
-
